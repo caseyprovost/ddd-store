@@ -43,6 +43,14 @@ services:
     depends_on:
       - postgres
 
+  guard:
+    <<: *backend
+    volumes:
+      - .:/app:cached
+    environment:
+      - RAILS_ENV=test
+    command: bundle exec guard --no-bundler-warning --no-interactions
+
   rails:
     <<: *backend
     command: ./bin/docker/start_rails
