@@ -1,7 +1,24 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+include FactoryBot::Syntax::Methods
+
+def provide_record(record_type:, attributes:)
+  record = record_type.classify.constantize.find_by(attributes)
+  record ||= create(record_type.to_sym, attributes)
+end
+
+admin = provide_record(record_type: :user, attributes: { username: "admin", name: "Tony Stark" })
+admin.confirm unless admin.confirmed?
+
+# Set up the test store
+avengers_store = create(:store, name: "Avengers Store")
+
+ironman = provide_record(record_type: :user, attributes: { username: "ironman", name: "Tony Stark" })
+ironman.confirm unless ironman.confirmed?
+
+hulk = provide_record(record_type: :user, attributes: { username: "hulk", name: "Bruce Banner" })
+hulk.confirm unless hulk.confirmed?
+
+products = create_list(:products, 20)
+users = [ironman, hulk]
+
+avengers_store.add_users(users)
+avengers_store.add_products(products)

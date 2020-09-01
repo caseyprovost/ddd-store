@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_30_201137) do
+ActiveRecord::Schema.define(version: 2020_09_01_013204) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -28,6 +28,41 @@ ActiveRecord::Schema.define(version: 2020_08_30_201137) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["queue_name", "scheduled_at"], name: "index_good_jobs_on_queue_name_and_scheduled_at", where: "(finished_at IS NULL)"
     t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.bigint "store_id", null: false
+    t.string "name", default: "", null: false
+    t.text "description"
+    t.string "featured_image"
+    t.string "slug", default: "", null: false
+    t.bigint "price_in_cents", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_products_on_name", unique: true
+    t.index ["slug"], name: "index_products_on_slug", unique: true
+    t.index ["store_id"], name: "index_products_on_store_id"
+  end
+
+  create_table "store_users", force: :cascade do |t|
+    t.bigint "store_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["store_id"], name: "index_store_users_on_store_id"
+    t.index ["user_id", "store_id"], name: "index_store_users_on_user_id_and_store_id", unique: true
+    t.index ["user_id"], name: "index_store_users_on_user_id"
+  end
+
+  create_table "stores", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.string "subdomain", default: "", null: false
+    t.bigint "owner_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["name"], name: "index_stores_on_name", unique: true
+    t.index ["owner_id"], name: "index_stores_on_owner_id"
+    t.index ["subdomain"], name: "index_stores_on_subdomain", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -54,4 +89,8 @@ ActiveRecord::Schema.define(version: 2020_08_30_201137) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "products", "stores"
+  add_foreign_key "store_users", "stores"
+  add_foreign_key "store_users", "users"
+  add_foreign_key "stores", "users", column: "owner_id"
 end

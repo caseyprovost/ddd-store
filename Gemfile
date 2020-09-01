@@ -34,9 +34,11 @@ gem "devise"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.4.2", require: false
-gem "faker"
-gem "pagy"
 gem "solargraph"
+
+gem "faker"
+gem "factory_bot_rails"
+gem "pagy"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -45,7 +47,6 @@ group :development, :test do
   gem "standard"
   gem "trailblazer-developer"
   gem "rspec-rails"
-  gem "factory_bot_rails"
   gem "dotenv-rails"
   gem "letter_opener"
   gem "letter_opener_web"
