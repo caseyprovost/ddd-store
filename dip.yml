@@ -29,6 +29,13 @@ interaction:
     description: Run Rake commands
     service: backend
     command: bundle exec rake
+  
+  guard:
+    description: TDD test runner
+    service: backend
+    environment:
+      RAILS_ENV: test
+    command: bundle exec guard --no-bundler-warning --no-interactions
 
   rails:
     description: Run Rails commands
@@ -71,4 +78,5 @@ interaction:
 
 provision:
   - dip compose down --volumes
+  - docker-compose up -d
   - dip bash -c ./bin/setup

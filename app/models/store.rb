@@ -1,5 +1,5 @@
 class Store < ApplicationRecord
-  belongs_to :owner
+  belongs_to :owner, class_name: "User"
   has_many :store_users
   has_many :users, through: :store_users
   has_many :products

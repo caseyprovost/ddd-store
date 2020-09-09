@@ -40,16 +40,10 @@ services:
       - PG_USERNAME=postgres
       - PG_PASSWORD=postgres
       - SMTP_HOST=mail
+    links:
+      - postgres
     depends_on:
       - postgres
-
-  guard:
-    <<: *backend
-    volumes:
-      - .:/app:cached
-    environment:
-      - RAILS_ENV=test
-    command: bundle exec guard --no-bundler-warning --no-interactions
 
   rails:
     <<: *backend

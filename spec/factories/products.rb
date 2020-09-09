@@ -1,10 +1,9 @@
 FactoryBot.define do
   factory :product do
-    store { nil }
-    name { "MyString" }
-    description { "MyText" }
-    featured_image { "MyString" }
-    slug { "MyString" }
-    price_in_cents { "" }
+    association :store
+    name { Faker::Book.unique.title }
+    description { Faker::Lorem.paragraphs(number: 3) }
+    featured_image { nil }
+    price_in_cents { Faker::Number.number(digits: (3..12).sample) }
   end
 end

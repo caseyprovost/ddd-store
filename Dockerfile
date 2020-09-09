@@ -65,3 +65,8 @@ ENV PATH /app/bin:$PATH
 RUN mkdir -p /app
 
 WORKDIR /app
+
+COPY Gemfile Gemfile.lock ./
+RUN bundle install -j20
+
+COPY . ./

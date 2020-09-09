@@ -3,7 +3,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "2.7.1"
 
-gem "rails", github: "rails/rails", branch: "6-0-stable"
+gem "rails", "6.0.3.2"
 
 # Use postgresql as the database for Active Record
 gem "pg", ">= 0.18", "< 2.0"
@@ -28,6 +28,7 @@ gem "trailblazer-rails" # if you are in rails.
 gem "trailblazer-cells"
 gem "good_job"
 gem "devise"
+
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
