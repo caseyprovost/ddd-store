@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: stores
+#
+#  id         :bigint           not null, primary key
+#  name       :string           default(""), not null
+#  subdomain  :string           default(""), not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  owner_id   :bigint           not null
+#
+# Indexes
+#
+#  index_stores_on_name       (name) UNIQUE
+#  index_stores_on_owner_id   (owner_id)
+#  index_stores_on_subdomain  (subdomain) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (owner_id => users.id)
+#
 class Store < ApplicationRecord
   belongs_to :owner, class_name: "User"
   has_many :store_users
@@ -8,14 +29,14 @@ class Store < ApplicationRecord
   validates :subdomain, presence: true, uniqueness: true
 
   def add_products(candidate_products)
-    existing_products = products.where(id: candidate_products.map(&:id))
-    new_products = candidate_products - existing_products
-    new_products.each { |product| self.products << product }
+    new_products = candidate_products - products
+    self.products = products.concat(new_products)
+    save!
   end
 
   def add_users(candidate_users)
-    existing_users = users.where(id: candidate_users.map(&:id))
-    new_users = candidate_users - existing_users
-    new_users.each { |user| self.users << user }
+    new_users = candidate_users - users
+    self.users = users.concat(new_users)
+    save!
   end
 end

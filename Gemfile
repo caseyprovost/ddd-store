@@ -29,7 +29,6 @@ gem "trailblazer-cells"
 gem "good_job"
 gem "devise"
 
-
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
@@ -40,6 +39,8 @@ gem "solargraph"
 gem "faker"
 gem "factory_bot_rails"
 gem "pagy"
+gem "money-rails"
+gem "annotate"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

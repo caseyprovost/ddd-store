@@ -21,7 +21,7 @@ test:
     <<: *default
     host: <%= ENV.fetch("PG_HOST", "localhost") %>
     port: <%= ENV.fetch("PG_PORT", 5432).to_i %>
-    database: code_fund_ads_test
+    database: ddd_store_test
   primary_replica:
     <<: *test_primary
     replica: true

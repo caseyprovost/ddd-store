@@ -17,8 +17,10 @@ ironman.confirm unless ironman.confirmed?
 hulk = provide_record(record_type: :user, attributes: { username: "hulk", name: "Bruce Banner" })
 hulk.confirm unless hulk.confirmed?
 
-products = create_list(:product, 20)
-users = [ironman, hulk]
+products = 20.times.map do |i|
+  book_title = "#{Faker::Book.unique.title} #{i + 1}"
+  create(:product, name: book_title, store: avengers_store)
+end
 
+users = [ironman, hulk]
 avengers_store.add_users(users)
-avengers_store.add_products(products) if avengers_store.products.count < 20

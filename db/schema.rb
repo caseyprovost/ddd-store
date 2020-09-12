@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_01_013204) do
+ActiveRecord::Schema.define(version: 2020_09_11_040009) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -28,6 +28,20 @@ ActiveRecord::Schema.define(version: 2020_09_01_013204) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["queue_name", "scheduled_at"], name: "index_good_jobs_on_queue_name_and_scheduled_at", where: "(finished_at IS NULL)"
     t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "total_in_cents", null: false
+    t.integer "adjustment_total_in_cents", null: false
+    t.integer "item_total_in_cents", null: false
+    t.integer "tax_total_in_cents", null: false
+    t.integer "shipment_total_in_cents", null: false
+    t.bigint "user_id"
+    t.bigint "store_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["store_id"], name: "index_orders_on_store_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "products", force: :cascade do |t|
@@ -89,6 +103,8 @@ ActiveRecord::Schema.define(version: 2020_09_01_013204) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "orders", "stores"
+  add_foreign_key "orders", "users"
   add_foreign_key "products", "stores"
   add_foreign_key "store_users", "stores"
   add_foreign_key "store_users", "users"
